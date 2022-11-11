@@ -1265,9 +1265,14 @@ archprepare: outputmakefile archheaders archscripts scripts include/config/kerne
 	asm-generic $(version_h) $(autoksyms_h) include/generated/utsrelease.h \
 	include/generated/compile.h include/generated/autoconf.h remove-stale-files
 
+ifeq ($(filter prepare,$(MAKECMDGOALS)),)
+prepare_cond=prepare
+else
+prepare_cond=
+endif
 prepare0: archprepare
 	$(Q)$(MAKE) $(build)=scripts/mod
-	$(Q)$(MAKE) $(build)=. prepare
+	$(Q)$(MAKE) $(build)=. $(prepare_cond)
 
 # All the preparing..
 prepare: prepare0
